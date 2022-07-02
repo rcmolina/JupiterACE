@@ -1,0 +1,83 @@
+Ace manual Code Examples (AMCE) Jupiter ACE 
+
+
+In this archive file are the code examples from the Jupiter Ace's manual.
+ When the contents of the zip file are extracted you will find a number of folders, eg. 
+'Chapter 21' all the AceFORTH code examples from chapter 21 of the manual will be in this folder.
+ Some chapters of the manual will not have any code examples the ones that do are 
+chapters 8, 11, 12, 13, 15, 16, 17, 19, 20, 21, 23, 24, 25, and 26. Also in the folders
+ are some screen dumps when the example shows a result output to the screen, see screen 
+shots below tzx files for each example have been made. 
+
+
+
+
+
+AMCE-info.txt			- this file
+
++---Chapter 08			- Folder	
+|       plusstore.tzx		- emulation tzx file
+|       queryvar.tzx		- emulation tzx file
+|       
++---Chapter 11			- Folder
+|       mice.tzx		- emulation tzx file
+|       
++---Chapter 12			- Folder
+|       chars.gif		- sereen shot
+|       chars.tzx		- emulation tzx file
+|       gr.tzx			- emulation tzx file
+|       tab.tzx			- emulation tzx file
+|       
++---Chapter 13			- Folder
+|       draw.gif		- sereen shot
+|       draw.tzx		- emulation tzx file	
+|       random.tzx		- emulation tzx file
+|       
++---Chapter 15			- Folder
+|       2cells.tzx		- emulation tzx file
+|       sqrt.tzx		- emulation tzx file
+|       trig.tzx		- emulation tzx file
+|       
++---Chapter 16			- Folder
+|       count.tzx		- emulation tzx file
+|       input.tzx		- emulation tzx file
+|       integer.tzx		- emulation tzx file
+|       key.tzx			- emulation tzx file
+|       wait.tzx		- emulation tzx file
+|       y-n.tzx			- emulation tzx file
+|       
++---Chapter 17			- Folder
+|       hex.tzx			- emulation tzx file
+|       
++---Chapter 19			- Folder
+|       d.tzx			- emulation tzx file
+|       money.tzx		- emulation tzx file
+|       time.tzx		- emulation tzx file
+|       
++---Chapter 20			- Folder
+|       stringcomma.tzx		- emulation tzx file
+|       tick.tzx		- emulation tzx file
+|       
++---Chapter 21			- Folder
+|       2-d.tzx			- emulation tzx file
+|       string.tzx		- emulation tzx file
+|       
++---Chapter 23			- Folder
+|       2literal.tzx		- emulation tzx file
+|       
++---Chapter 24			- Folder
+|       dots.tzx		- emulation tzx file
+|       sysvars.tzx		- emulation tzx file
+|       time.tzx		- emulation tzx file
+|       
++---Chapter 25			- Folder
+|       code.tzx		- emulation tzx file
+|       pause.tzx		- emulation tzx file
+|       
+\---Chapter 26			- Folder
+        noise.tzx		- emulation tzx file
+        runlights.tzx		- emulation tzx file
+        switches.tzx		- emulation tzx file
+
+
+for more info sww www.jupiter-ace.co.uk
