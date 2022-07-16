@@ -1,6 +1,4 @@
 CRASH COURSE IN FORTH
-
-
 =========================
 
 by Edward Patel, Jan 1998
