@@ -1,0 +1,335 @@
+<html>
+<!-- END WAYBACK TOOLBAR INSERT -->
+<h1>
+<center>
+CRASH COURSE IN FORTH
+</h1>
+by Edward Patel, Jan 1998
+</center>
+
+
+<h2>
+Abstract
+</h2>
+
+Forth is a small and effective programming language. Not many are 
+aware of its existence or how its is used. This crash course was 
+written together with the Jupiter ACE emulator, xace, to show how 
+Forth is used on the Jupiter ACE. Jupiter ACE is the <i>outsider</i> 
+micro from the 80's. Instead of the common BASIC it has Forth as 
+its programming language. 
+<p>
+  I will not give a full description of Forth but rather a small
+picture how it works and is used. Forth is also a set of flavours 
+that differ in some parts. The Jupiter ACE has FORTH-79 as its base 
+but lacks some of its words, it has also some additional words for 
+its own purpose, i.e using tapes as storage.
+<p>
+  For a better understanding about Forth read a book like Leo 
+Brodie's <i>Starting FORTH</i> or try the web-tutor for <i>4tH</i> (Jan98) 
+<a href="https://web.archive.org/web/20131123220257/http://www.geocities.com/SiliconValley/Bay/2334/4thtutor.htm">http://www.geocities.com/SiliconValley/Bay/2334/4thtutor.htm</a>
+
+<h2>
+The Vocabulary
+</h2>
+
+Forth is a set of words that when they are executed they carry out
+some predefined actions. To execute a word just type it and press 
+enter. To see a list of all words that can be used type <code><b>vlist</b></code>
+and press enter. This set of words can easily be extended. Example:
+<pre>
+	: hello ." Hello, world!" cr ;
+</pre>
+This example show how a word <code><b>hello</b></code> is defined and that it will when
+executed print <code><b>Hello, world!</b></code> on the screen. The colon means <i>compile 
+word</i> and the word after it, here <code><b>hello</b></code>, will be the name of the 
+new word. The <code><b>."</b></code> is also a Forth word because Forth interprets all 
+clusters of non-space characters as words. The word <code><b>."</b></code> means (will 
+mean - in a strictly forth manner) print to screen all characters up 
+to the first <code><b>"</b></code> and here that will be <code><b>Hello, world!</b></code>. The <code><b>"</b></code> is 
+the end-of-output delimiter and the next word will be <code><b>cr</b></code> that means 
+output a carriage-return character. The last word <code><b>;</b></code> means end of the 
+compiled words actions.
+<p>
+A word can be defined several times. A new definition does not remove
+the old one but rather means that any new use of the word will use the
+new definition. Example:
+<pre>
+
+	: abc ." old definition" cr ;
+	: test abc ;
+	: abc ." new definition" cr ;
+	test
+</pre>
+In this example the word <code><b>test</b></code> uses the word <code><b>abc</b></code> which by the order
+of defining is the word that prints <code><b>old definition</b></code>. When the new <code><b>abc</b></code>
+is defined it will not alter <code><b>test</b></code> or the old <code><b>abc</b></code> but rather declare
+a new <code><b>abc</b></code> for future usage. Because Jupiter ACE doesn't make use of
+whats known as the EDITOR, that is used during software development, 
+it has a special word <code><b>redefine</b></code> that will change old words and their
+usage to new ones. After <code><b>redefine abc</b></code> will <code><b>test</b></code> in the example
+above print <code><b>new definition</b></code>.
+<p>
+A word that can't be found in the vocabulary will Forth try to 
+interpret as a number and place on the stack. If the word can't be 
+interpreted as a number will Forth print a <code><b>?</b></code> at the word.
+
+
+<h2>
+The Stacks
+</h2>
+
+Forth uses a stack to exchange parameters between words. A calling word 
+should first place the parameters on the stack for a word that will be 
+executed and then execute it. When a called word is finished it should 
+place the result on the stack and a calling word can then use it.
+The values are often numbers or memory addresses. The word <code><b>.</b></code> will
+print what is on top of the stack (and remove it). Example:
+<pre>
+	3 2 1 . . .		<i>will print 1 2 3</i>
+</pre>
+The basic operators <code><b>+</b></code>, <code><b>-</b></code>, <code><b>/</b></code> and <code><b>*</b></code> uses two values from the stack 
+and places the result on the stack. Example:
+<pre>
+	1 1 + .			<i>will print 2</i>
+	3 1 - .			<i>will print 2</i>
+	4 2 / .			<i>will print 2</i>
+	2 3 * .			<i>will print 6</i>
+</pre>
+Forth work with integers, here 16 bit. The Jupiter ACE has extra build 
+in words to handle floating-point numbers. These are <code><b>f+</b></code>, <code><b>f-</b></code>, <code><b>f*</b></code>, 
+<code><b>f/</b></code>, <code><b>f.</b></code>, <code><b>fnegate</b></code>, <code><b>int</b></code> and <code><b>ufloat</b></code>, and to input a floating-point 
+number add a <code><b>.</b></code> at the appropriate place, i.e <code><b>1.</b></code> for 1 or <code><b>.1</b></code> for 
+0.1. Note for the floating-point values that they occupy two values
+(items) on the stack.
+<p>
+The stack can be manipulated in different ways. Words for this are; 
+<code><b>dup</b></code>, <code><b>swap</b></code>, <code><b>drop</b></code>, <code><b>rot</b></code>, <code><b>pick</b></code>. <code><b>dup</b></code> duplicates the top of stack 
+value. <code><b>swap</b></code> exchanges the two values on top of the stack values. <code><b>drop</b></code> 
+removes the top of the stack value. <code><b>rot</b></code> rotates the three values on top
+of the stack making the value on top of the stack the second value, the
+second value the third and the third value on to of the stack. <code><b>pick</b></code> 
+takes the value on top of the stack and looks up that number of steps
+down the stack and gets that value. Examples:
+<pre>
+	1 dup . .		  <i>will print 1 1</i>
+	2 1 swap . .              <i>will print 2 1</i>
+	2 1 drop .                <i>will print 2</i>
+	3 2 1 rot . . .           <i>will print 3 1 2</i>
+	4 3 2 1 3 pick . . . . .  <i>will print 3 1 2 3 4</i>
+</pre>
+Example of value passing through the stack.
+<pre>
+	: add4 4 + ;
+	: add8 add4 add4 ;
+	5 add4 .		<i>will print 9</i>
+	5 add8 .		<i>will print 13	</i>
+</pre>
+Forth has also a second stack called the return stack. This stack is used 
+to store return addresses during execution of a called word and other misc 
+things. The words <code><b>r&gt;</b></code> and <code><b>&gt;r</b></code> is often used to move values back and 
+forth between the stack and return stack. <code><b>&gt;r</b></code> means move to the return
+stack and <code><b>r&gt;</b></code> means move to the stack from the return stack.
+
+<h2>
+Constants and Variables
+</h2>
+A constant can be created as;
+<pre>
+	: max.x 63 ;
+</pre>
+which is a word <code><b>max.x</b></code> that places the value 63 on the stack. Because
+this a common thing to do Forth has a word just for creating constants and
+its name is <code><b>constant</b></code>. Example:
+<pre>
+	63 constant max.x
+</pre>
+This does the same as the previous example. A variable is similar but the 
+user is able to change its value. When the variables name (word) is 
+executed it rather gives a value that can be used to access the value
+of the variable, both for reading and writing. Example:
+<pre>
+	12 variable x
+	x @ .			<i>will print 12</i>
+	13 x !			<i>will set x to 13</i>
+	x @ .			<i>will print 13</i>
+</pre>
+The word <code><b>variable</b></code> takes a name and a value from the stack and allocates 
+some memory for the variable. When the new word for the variable is 
+executed it places a value on the stack (the address). The word <code><b>@</b></code> takes
+a value from the stack and looks up in memory the value stored at that 
+address. The word <code><b>!</b></code> takes two values from the stack, the top of stack
+is the address where the second value will be stored.
+
+<h2>
+Repetitions and Decisions
+</h2>
+The simples way of doing a repetition is by using the words <code><b>do</b></code> and 
+<code><b>loop</b></code>. Example:
+<pre>
+	: test 100 0 do ." &gt;" loop ;
+	test				<i>will print 100 &gt; characters</i>
+</pre>
+The word <code><b>do</b></code> takes two values from the stack. The top of stack is the
+starting value (here 0) and the second (here 100) the value when the
+repetition should be ended. With the word <code><b>i</b></code> can one access the current
+value for the repetition. Example:
+<pre>
+	: test 10 4 do i . loop ;
+	test				<i>will print 4 5 6 7 8 9 </i>
+</pre>
+Note that the 10 is not printed in the example above. Note also that
+the word <code><b>loop</b></code> increases the value by one all the time. There is a 
+special variation of the word <code><b>loop</b></code> that is <code><b>+loop</b></code> which takes a values
+from the stack and uses that as the increment. Example:
+<pre>
+	: test 0 5 do i . -2 +loop ;
+	test				<i>will print 5 3 1</i>
+</pre>
+More complicated repetitions are available with the words <code><b>begin</b></code>,
+<code><b>until</b></code>, <code><b>while</b></code> and <code><b>repeat</b></code>. The word <code><b>begin</b></code> marks where the
+repetition begins (returns to). The word <code><b>until</b></code> takes a value from
+the stack, if it is zero (false) it will repeat the loop from the word
+<code><b>begin</b></code>.
+<pre>
+	: test begin dup . 1- dup 0= until drop ;
+	5 test				<i>will print 5 4 3 2 1</i>
+</pre>
+The word <code><b>1-</b></code> is an optimized shortcut for the pair <code><b>1</b></code> and <code><b>-</b></code>. The 
+word <code><b>0=</b></code> is an optimized shortcut for the pair <code><b>0</b></code> and <code><b>=</b></code>. The word
+<code><b>=</b></code> is a test operator that takes two values from the stack and if they
+are equal it will place a one (true - or minus one depending on the 
+Forth) on the stack and if they are not equal it will place zero (false) 
+on the stack.
+<p>
+The next repetition construction uses the words <code><b>begin</b></code>, <code><b>while</b></code> and 
+<code><b>repeat</b></code>. The word <code><b>begin</b></code> work like in the <code><b>until</b></code> case but in this
+case will the word <code><b>repeat</b></code> unconditionaly repeat the loop from the 
+word <code><b>begin</b></code>. The word <code><b>while</b></code> is placed somewhere inbetween a <code><b>begin</b></code>
+and a <code><b>repeat</b></code> and it takes a value from the stack. If the value is
+zero (false) it will leave the repetition and continue executing after 
+the word <code><b>repeat</b></code>. If the value is not zero (true) it will not do 
+anything which in effect means that it will continue to the word <code><b>repeat</b></code> 
+and there repeat the repetition from the word <code><b>begin</b></code>. Example:
+<pre>
+	: test begin dup while dup . 1- repeat ;
+	5 test				<i>will print 5 4 3 2 1</i>
+</pre>
+For simple decisions there are the words <code><b>if</b></code>, <code><b>else</b></code> and <code><b>then</b></code>.
+The word <code><b>if</b></code> takes one value of the stack. If the value is zero (false) 
+will <code><b>if</b></code> ignore everything until the word <code><b>else</b></code> (or <code><b>then</b></code> if the <code><b>else</b></code> 
+is missing) and continue executing after the word <code><b>else</b></code>. If the value is 
+not zero (true) will everything inbetween the word <code><b>if</b></code> and the word <code><b>else</b></code> 
+(or <code><b>then</b></code> if the <code><b>else</b></code> is missing) be executed and everything inbetween
+the word <code><b>else</b></code> and the word <code><b>then</b></code> will be ignored. Example:
+<pre>
+	: test 0= if ." in" then ." complete!" ;
+	0 test				<i>will print incomplete!</i>
+	1 test				<i>will print complete!</i>
+	: test if ." True!" else ." False!" then ;
+	0 test				<i>will print False!</i>
+	1 test				<i>will print True!</i>
+</pre>
+Note that <code><b>if</b></code> constructions can be nested. Example:
+<pre>
+	if       -----+
+	  if     ---+ |
+	  else   ---+ |
+	    if   -+ | |
+	    then -+ | |
+	  then   ---+ |
+	else     -----+
+	  if     -+   |
+	  then   -+   |
+	then     -----+
+</pre>
+<h2>
+Compiling words
+</h2>
+TBD. Creating your own compiling words.
+
+<h2>
+Jupiter ACE words
+</h2>
+The Jupiter ACE has a few additional words not from the FORTH-79 definition,
+these are:
+<dl>
+<dt><code>save</code>
+<dd><code>save &lt;name&gt;</code> saves the vocabulary as &lt;name&gt;
+<dt><code>load</code>
+<dd><code>load &lt;name&gt;</code> loads the vocabulary &lt;name&gt;
+<dt><code>verify </code>
+<dd>-
+<dt><code>bsave</code>
+<dd><code>s l bsave &lt;name&gt;</code> saves l bytes from the memory starting at address s as &lt;name&gt;
+<dt><code>bload</code>
+<dd><code>s l bload &lt;name&gt;</code> loades 0 bytes to the memory starting at address s as &lt;name&gt;. If s or l is zero will their value be taken from the file.
+<dt><code>bverify</code>
+<dd>-
+<dt><code>list</code>
+<dd><code>list &lt;word&gt;</code> lists the definition of &lt;word&gt; 
+<dt><code>edit</code>
+<dd><code>edit &lt;word&gt;</code> loads the &lt;word&gt; so the user can edit it. When the user presses enter will a new definition be compiled. Use <code>redefine</code> to update the new definition for older usages of the word.
+<dt><code>redefine</code>
+<dd><code>redefine &lt;word&gt;</code> removes the old definition of &lt;word&gt; and updates the older usages of it.
+<dt><code>f+, f-, f*, f/, f., fnegate, int, ufloat</code>
+<dd>floating-point number words
+<dt><code>ascii</code>
+<dd><code>ascii &lt;word&gt;</code> puts the first letter in &lt;word&gt; on the stack as its ascii value
+<dt><code>at</code>
+<dd><code>l c at</code> sets the next printing position on the screen, l can be from 0 to 22 and c can be from 0 to 31.
+<dt><code>beep</code>
+<dd><code>T t beep</code> sounds the beeper with tone T (specially calculated value) for t milliseconds
+<dt><code>call</code>
+<dd><code>addr call</code> will call Z80 machine code at addr, should be terminated with a <code>jp (iy)</code> Z80 instruction.
+<dt><code>cls</code>
+<dd>clears the screen
+<dt><code>fast</code>
+<dd>disables some error checking routines making it all run 25% faster
+<dt><code>in</code>
+<dd>does a Z80 IN (x) - used for communicating with external hardware
+<dt><code>inkey</code>
+<dd>reads the keyboard, puts the ascii value of the key or 0 if no key is pressed
+<dt><code>invis</code>
+<dd>disables the printing to the upper part of the screen	
+<dt><code>line</code>
+<dd>interprets the input buffer as a normal FORTH line
+<dt><code>number</code>
+<dd>-
+<dt><code>out</code>
+<dd>does a Z80 OUT(x) - used for communicating with external hardware
+<dt><code>plot</code>
+<dd><code>x y m plot</code> plots a dot at position (x,y) with mode m. (0,0) is the lower left corner and (63,45) is the upper right corner.
+<dt><code>retype</code>
+<dd>-
+<dt><code>slow</code>
+<dd>enables some error checking routines (normal execution)
+<dt><code>vis</code>
+<dd>enables the printing to the upper part of the screen	
+<dt><code>definer &lt;name&gt; ... does&gt;</code>
+<dd>is the same as <code>: &lt;name&gt; CREATE ... DOES&gt;</code>
+<dt><code>compiler &lt;name&gt; ... runs&gt;</code>
+<dd>-
+</dl>
+<!-- Start filter footer -->  <!-- End filter footer --></body>
+</html><!--
+     FILE ARCHIVED ON 22:02:57 Nov 23, 2013 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:05:56 Jul 16, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 177.818
+  exclusion.robots: 0.274
+  exclusion.robots.policy: 0.265
+  RedisCDXSource: 4.557
+  esindex: 0.008
+  LoadShardBlock: 157.768 (3)
+  PetaboxLoader3.datanode: 153.642 (4)
+  CDXLines.iter: 12.855 (3)
+  load_resource: 96.906
+  PetaboxLoader3.resolve: 45.959
+-->
