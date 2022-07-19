@@ -10,7 +10,8 @@ Forth is a small and effective programming language. Not many are aware of its e
 
 I will not give a full description of Forth but rather a small picture how it works and is used. Forth is also a set of flavours that differ in some parts. The Jupiter ACE has FORTH-79 as its base but lacks some of its words, it has also some additional words for its own purpose, i.e using tapes as storage.
 
-For a better understanding about Forth read a book like Leo Brodie's _Starting FORTH_ or try the web-tutor for _4tH_ (Jan98) [http://www.geocities.com/SiliconValley/Bay/2334/4thtutor.htm](https://web.archive.org/web/20131123220257/http://www.geocities.com/SiliconValley/Bay/2334/4thtutor.htm)
+For a better understanding about Forth read a book like Leo Brodie's _Starting FORTH_ or try the web-tutor for _4tH_ (Jan98) 
+[](http://pfe.sourceforge.net/4thtutor/4thtutor.htm)
 
 The Vocabulary
 --------------
