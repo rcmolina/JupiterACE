@@ -13,7 +13,7 @@ I will not give a full description of Forth but rather a small picture how it wo
 For a better understanding about Forth read a book like Leo Brodie's _Starting FORTH_ or try the web-tutor for _4tH_ (Jan98)
 [https://skilldrick.github.io/easyforth/](https://skilldrick.github.io/easyforth/) 
 [https://www.forth.com/starting-forth/8-variables-constants-arrays/](https://www.forth.com/starting-forth/8-variables-constants-arrays/) 
-[http://pfe.sourceforge.net/4thtutor/4thtutor.htm](http://pfe.sourceforge.net/4thtutor/4thtutor.htm)
+[http://pfe.sourceforge.net/4thtutor/](http://pfe.sourceforge.net/4thtutor/)
 
 The Vocabulary
 --------------
